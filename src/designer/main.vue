@@ -12,7 +12,7 @@
 import { ref, computed, onMounted, onUnmounted } from 'vue';
 import type { GridLayout } from 'grid-layout-plus';
 import { Box } from '@element-plus/icons-vue';
-import ParserItem from '../parser/main.vue';
+import ParserItem from './ParserItem.vue';
 import DesignerToolbar from './DesignerToolbar.vue';
 import PropertyPanel from './PropertyPanel.vue';
 import ComponentLibrary from './ComponentLibrary.vue';

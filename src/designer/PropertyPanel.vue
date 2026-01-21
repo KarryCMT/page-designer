@@ -119,7 +119,7 @@
 import { ref, computed, watch, shallowRef } from 'vue';
 import { Close, DArrowLeft, DArrowRight } from '@element-plus/icons-vue';
 import { ComponentFactory } from '../core';
-import { PropertyEditorFactory } from '../property-editors/PropertyEditorFactory';
+import { PropertyEditorFactory } from '../property/PropertyEditorFactory';
 
 interface Props {
   selectedComponent: any;
