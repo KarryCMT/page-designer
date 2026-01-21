@@ -7,7 +7,11 @@
     <div class="card-content">
       <h4>{{ config.subTitle }}</h4>
       <div class="briefing-list">
-        <div v-for="(item, index) in config.option?.briefingFields" :key="index" class="briefing-item">
+        <div
+          v-for="(item, index) in config.option?.briefingFields"
+          :key="index"
+          class="briefing-item"
+        >
           <span class="label">{{ item.label }}:</span>
           <span class="value">{{ item.value }}</span>
         </div>
@@ -17,8 +21,6 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps } from 'vue';
-
 const props = defineProps<{
   config: any;
 }>();

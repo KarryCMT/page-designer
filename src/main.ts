@@ -12,7 +12,7 @@ app.component('GridLayout', GridLayout);
 app.component('GridItem', GridItem);
 
 Object.keys(widgets).forEach((key) => {
-    app.component(key, widgets[key]);
+    app.component(key, widgets[key as keyof typeof widgets]);
 });
 
 app.use(ElementPlus);

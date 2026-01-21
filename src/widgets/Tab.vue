@@ -93,6 +93,8 @@ eventBus.on(
     // 检查是否是 Tab 内部的组件
     for (const tabIndex in tabLayouts.value) {
       const layout = tabLayouts.value[tabIndex];
+      if (!layout || !Array.isArray(layout)) continue;
+
       const componentIndex = layout.findIndex(
         (item: any) => item.i === componentId,
       );
@@ -129,7 +131,14 @@ const activeTabIndex = computed(() => {
 
 // 当前激活 tab 的布局数据
 const currentLayout = computed({
-  get: () => tabLayouts.value[activeTabIndex.value] || [],
+  get: () => {
+    const index = activeTabIndex.value;
+    if (index === -1) return [];
+    if (!tabLayouts.value[index]) {
+      tabLayouts.value[index] = [];
+    }
+    return tabLayouts.value[index];
+  },
   set: (val) => {
     if (activeTabIndex.value !== -1) {
       tabLayouts.value[activeTabIndex.value] = val;
@@ -155,7 +164,7 @@ const { drag, cleanupPlaceholder } = useDrag({
   isTabContext: true,
   throttleTime: 50,
   dropId: 'tab-drop',
-  onDragStart: (widgetName: string) => {
+  onDragStart: () => {
     // 配置会在 handleTabDrop 中使用
   },
   onDragEnd: () => {
@@ -177,7 +186,7 @@ watch(
     }
 
     // 初始化 tab layouts
-    if (newConfig.children) {
+    if (newConfig.children && Array.isArray(newConfig.children)) {
       newConfig.children.forEach((tab: any, index: number) => {
         if (!tabLayouts.value[index]) {
           tabLayouts.value[index] = tab.children || [];

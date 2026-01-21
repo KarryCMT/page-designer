@@ -16,7 +16,7 @@
               <template #append>
                 <el-button
                   :icon="Delete"
-                  @click="removeTab(index)"
+                  @click="removeTab(Number(index))"
                   :disabled="localConfig.children.length <= 1"
                 />
               </template>
@@ -63,12 +63,12 @@ interface Props {
 
 const props = defineProps<Props>();
 const emit = defineEmits<{
-  update: [];
+  (e: 'update', config: any): void;
 }>();
 
 const localConfig = ref<any>({
   children: [],
-  active: ''
+  active: '',
 });
 
 watch(
@@ -76,17 +76,17 @@ watch(
   (newConfig) => {
     localConfig.value = {
       ...newConfig,
-      children: [...(newConfig.children || [])]
+      children: [...(newConfig.children || [])],
     };
   },
-  { immediate: true, deep: true }
+  { immediate: true, deep: true },
 );
 
 function addTab() {
   const newTabName = `Tab ${localConfig.value.children.length + 1}`;
   localConfig.value.children.push({
     name: newTabName,
-    children: []
+    children: [],
   });
 
   // 如果是第一个标签页，设置为默认激活
@@ -114,7 +114,7 @@ function removeTab(index: number) {
 }
 
 function handleChange() {
-  emit('update');
+  emit('update', localConfig.value);
 }
 </script>
 

@@ -25,7 +25,7 @@ export interface DragStrategy {
 export class CanvasDragStrategy implements DragStrategy {
     private dropId: string = 'drop';
 
-    canDrop(widgetName: string): boolean {
+    canDrop(): boolean {
         // 主画布允许所有组件
         return true;
     }

@@ -26,7 +26,7 @@
         <!-- 组件图标 -->
         <div class="component-icon">
           <el-icon>
-            <component :is="iconComponentMap[item.icon]" />
+            <component :is="(iconComponentMap as any)[item.icon]" />
           </el-icon>
         </div>
         <!-- 组件信息：名称和尺寸 -->
