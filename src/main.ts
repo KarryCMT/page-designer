@@ -4,7 +4,7 @@ import App from './App.vue';
 import ElementPlus from 'element-plus';
 import 'element-plus/dist/index.css';
 import { GridLayout, GridItem } from 'grid-layout-plus';
-import widgets from './components';
+import widgets from './widgets/index';
 
 const app = createApp(App);
 

@@ -58,10 +58,10 @@
 <script setup lang="ts">
 import { ref, watch, computed } from 'vue';
 import type { GridLayout } from 'grid-layout-plus';
-import ParserItem from '../../designer/ParserItem.vue';
-import EmptyState from '../../designer/EmptyState.vue';
-import { useDrag } from '../../designer/useDrag';
-import { EventBus, DesignerEvents, ComponentFactory } from '../../core';
+import ParserItem from '@/designer/ParserItem.vue';
+import EmptyState from '@/designer/EmptyState.vue';
+import { useDrag } from '@/designer/useDrag';
+import { EventBus, DesignerEvents, ComponentFactory } from '@/core';
 
 const props = defineProps<{
   config: any;
