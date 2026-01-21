@@ -18,7 +18,9 @@
             <GridLayout
               :ref="(el: any) => setGridLayoutRef(el, Number(tabIndex))"
               :layout="getTabLayout(Number(tabIndex))"
-              @update:layout="(val: any[]) => updateTabLayout(Number(tabIndex), val)"
+              @update:layout="
+                (val: any[]) => updateTabLayout(Number(tabIndex), val)
+              "
               :row-height="30"
               :col-num="12"
               :margin="[10, 10]"
@@ -56,7 +58,7 @@
 <script setup lang="ts">
 import { ref, watch, computed } from 'vue';
 import type { GridLayout } from 'grid-layout-plus';
-import ParserItem from '../../parser/main.vue';
+import ParserItem from '../../designer/ParserItem.vue';
 import EmptyState from '../../designer/EmptyState.vue';
 import { useDrag } from '../../designer/useDrag';
 import { EventBus, DesignerEvents, ComponentFactory } from '../../core';
@@ -85,21 +87,26 @@ eventBus.on(DesignerEvents.COMPONENT_SELECT, (data: any) => {
 });
 
 // 监听组件更新事件
-eventBus.on(DesignerEvents.COMPONENT_UPDATE, ({ componentId, newConfig }: any) => {
-  // 检查是否是 Tab 内部的组件
-  for (const tabIndex in tabLayouts.value) {
-    const layout = tabLayouts.value[tabIndex];
-    const componentIndex = layout.findIndex((item: any) => item.i === componentId);
+eventBus.on(
+  DesignerEvents.COMPONENT_UPDATE,
+  ({ componentId, newConfig }: any) => {
+    // 检查是否是 Tab 内部的组件
+    for (const tabIndex in tabLayouts.value) {
+      const layout = tabLayouts.value[tabIndex];
+      const componentIndex = layout.findIndex(
+        (item: any) => item.i === componentId,
+      );
 
-    if (componentIndex !== -1) {
-      // 更新组件配置
-      layout[componentIndex] = { ...layout[componentIndex], ...newConfig };
-      tabLayouts.value[tabIndex] = [...layout];
-      updateConfig();
-      break;
+      if (componentIndex !== -1) {
+        // 更新组件配置
+        layout[componentIndex] = { ...layout[componentIndex], ...newConfig };
+        tabLayouts.value[tabIndex] = [...layout];
+        updateConfig();
+        break;
+      }
     }
-  }
-});
+  },
+);
 
 // 使用本地的 activeTab，初始化时从 config 中获取
 const activeTab = ref(props.config.active || 'Tab 1');
@@ -113,9 +120,11 @@ const tabContentRefs = ref<Record<number, HTMLElement>>({});
 
 // 获取当前激活的 tab 索引
 const activeTabIndex = computed(() => {
-  return props.config.children?.findIndex(
-    (tab: any) => tab.name === activeTab.value
-  ) ?? -1;
+  return (
+    props.config.children?.findIndex(
+      (tab: any) => tab.name === activeTab.value,
+    ) ?? -1
+  );
 });
 
 // 当前激活 tab 的布局数据
@@ -129,10 +138,14 @@ const currentLayout = computed({
 });
 
 // 当前激活 tab 的画布容器
-const currentCanvasWrapper = computed(() => tabContentRefs.value[activeTabIndex.value]);
+const currentCanvasWrapper = computed(
+  () => tabContentRefs.value[activeTabIndex.value],
+);
 
 // 当前激活 tab 的 GridLayout 实例
-const currentGridLayout = computed(() => gridLayoutRefs.value[activeTabIndex.value]);
+const currentGridLayout = computed(
+  () => gridLayoutRefs.value[activeTabIndex.value],
+);
 
 // 使用拖拽 Hook
 const { drag, cleanupPlaceholder } = useDrag({
@@ -172,7 +185,7 @@ watch(
       });
     }
   },
-  { immediate: true, deep: true }
+  { immediate: true, deep: true },
 );
 
 function handleTabClick(tab: any) {
@@ -285,7 +298,7 @@ function handleTabDrop(event: DragEvent, tabIndex: number) {
         w: componentConfig.w || 6,
         h: componentConfig.h || 4,
         i: tempId,
-        type: '__placeholder__'
+        type: '__placeholder__',
       };
 
       // 添加临时占位符
@@ -308,10 +321,15 @@ function handleTabDrop(event: DragEvent, tabIndex: number) {
         }
 
         // 移除临时占位符
-        tabLayouts.value[tabIndex] = currentLayout.filter(item => item.i !== tempId);
+        tabLayouts.value[tabIndex] = currentLayout.filter(
+          (item) => item.i !== tempId,
+        );
 
         // 使用ComponentFactory创建组件
-        const newComponent = componentFactory.createComponent(widgetName, { x: posX, y: posY });
+        const newComponent = componentFactory.createComponent(widgetName, {
+          x: posX,
+          y: posY,
+        });
 
         if (newComponent) {
           tabLayouts.value[tabIndex].push(newComponent);

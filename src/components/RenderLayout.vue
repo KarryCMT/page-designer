@@ -33,7 +33,7 @@
 <script setup lang="ts">
 import { computed, ref, onMounted, onUnmounted } from 'vue';
 import { Box } from '@element-plus/icons-vue';
-import ParserItem from '../parser/main.vue';
+import ParserItem from '../designer/ParserItem.vue';
 
 interface Props {
   /** 布局配置数据 */
