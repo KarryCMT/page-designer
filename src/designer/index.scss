@@ -1,0 +1,196 @@
+.layout-designer {
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+  height: 100vh;
+  background-color: var(--el-fill-color-lighter);
+  overflow: hidden; // 完全禁止滚动条
+  position: fixed; // 固定定位，防止任何溢出
+  top: 0;
+  left: 0;
+
+  // 顶部导航栏
+  .navbar {
+    width: 100%;
+    height: 60px;
+    background-color: var(--el-bg-color);
+    border-bottom: 1px solid var(--el-border-color);
+    flex-shrink: 0;
+    box-shadow: var(--el-box-shadow-lighter);
+  }
+
+  // 主体内容区域（包含左侧边栏和右侧画布）
+  .layout-designer-content {
+    display: flex;
+    flex: 1;
+    min-height: 0;
+    min-width: 0;
+    overflow: hidden;
+
+    // 右侧画布区域
+    .canvas-area {
+      flex: 1;
+      min-width: 0; // 关键：允许 flex 子项正确收缩
+      display: flex;
+      flex-direction: column;
+      min-height: 0; // 关键：允许 flex 子项正确收缩
+      overflow: hidden;
+      padding: 0;
+      box-sizing: border-box;
+
+      .canvas-wrapper {
+        flex: 1;
+        min-width: 0; // 关键：允许 flex 子项正确收缩
+        min-height: 0; // 关键：允许 flex 子项正确收缩
+        overflow-y: auto; // 只允许垂直滚动
+        overflow-x: hidden; // 隐藏横向滚动条
+        background-color: #f2f3f5;
+        position: relative;
+        border-radius: var(--el-border-radius-base); // 添加圆角让视觉效果更好
+
+        // 空状态文字样式
+        .empty-title {
+          font-size: 18px;
+          font-weight: 600;
+          color: var(--el-text-color-primary);
+          margin: 16px 0 8px;
+        }
+
+        .empty-hint {
+          font-size: 14px;
+          color: var(--el-text-color-secondary);
+          margin: 0 0 24px;
+        }
+
+        :deep(.vgl-layout) {
+          background-color: transparent;
+          width: 100%;
+          min-height: 100%;
+          padding: 10px;
+          box-sizing: border-box;
+          user-select: none;
+          -webkit-user-select: none;
+          -moz-user-select: none;
+          -ms-user-select: none;
+          position: relative;
+        }
+
+        :deep(.vgl-item) {
+          background-color: var(--el-bg-color);
+          border-radius: var(--el-border-radius-base);
+          transition: all 0.2s ease;
+          user-select: none;
+          -webkit-user-select: none;
+          -moz-user-select: none;
+          -ms-user-select: none;
+          box-sizing: border-box;
+
+          &:hover {
+            border-color: var(--el-color-primary);
+            z-index: 1;
+          }
+
+          &.vgl-item--resizing {
+            opacity: 0.8;
+            border-color: var(--el-color-warning);
+            z-index: 2;
+          }
+
+          &.vgl-item--dragging {
+            opacity: 0.8;
+            border-color: var(--el-color-success);
+            transform: rotate(2deg);
+            user-select: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            z-index: 3;
+          }
+
+          &.vgl-item--placeholder {
+            background-color: var(--el-color-success-light-9);
+            border: 2px dashed var(--el-color-success);
+          }
+        }
+
+        .grid-item-content {
+          height: 100%;
+          display: flex;
+          flex-direction: column;
+          user-select: none;
+          border: 2px solid var(--el-bg-color);
+          box-sizing: border-box;
+          -webkit-user-select: none;
+          -moz-user-select: none;
+          -ms-user-select: none;
+
+          .card-header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+
+            .item-id {
+              font-weight: 600;
+              color: var(--el-text-color-primary);
+              font-size: 14px;
+            }
+          }
+
+          .component-preview {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+            width: 100%;
+            height: 100%;
+
+            .component-label {
+              font-size: 12px;
+              font-weight: 500;
+              color: var(--el-text-color-regular);
+            }
+          }
+        }
+      }
+    }
+  }
+
+  // 响应式设计
+  @media (max-width: 768px) {
+    .layout-designer {
+      flex-direction: column;
+
+      .sidebar {
+        width: 100%;
+        height: 200px;
+
+        .component-list {
+          display: flex;
+          flex-direction: row;
+          gap: 8px;
+
+          .component-item {
+            min-width: 120px;
+            margin-bottom: 0;
+          }
+        }
+      }
+
+      .canvas-area {
+        margin-left: 2px;
+        margin-right: 2px;
+        .canvas-wrapper {
+          padding: 10px;
+        }
+      }
+
+      .attr-panel {
+        width: 100%;
+        height: auto;
+        border-left: none;
+        border-top: 1px solid #e0e0e0;
+      }
+    }
+  }
+}
