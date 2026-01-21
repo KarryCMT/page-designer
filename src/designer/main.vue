@@ -358,13 +358,7 @@ onUnmounted(() => {
       :can-redo="commandManager.canRedo()"
       :component-count="layout.length"
       :history-size="commandManager.getHistorySize()"
-      @undo="handleUndo"
-      @redo="handleRedo"
-      @clear="handleClear"
       @preview="handlePreview"
-      @view-json="handleViewJson"
-      @export="handleExport"
-      @import="handleImport"
     />
 
     <!-- 主体内容区域 -->
@@ -379,7 +373,14 @@ onUnmounted(() => {
 
       <!-- 右侧画布区域：设计画布 -->
       <div class="canvas-area">
-        <CanvasHeader />
+        <CanvasHeader
+          @undo="handleUndo"
+          @redo="handleRedo"
+          @clear="handleClear"
+          @view-json="handleViewJson"
+          @export="handleExport"
+          @import="handleImport"
+        />
 
         <!-- GridLayout网格布局容器 -->
         <div ref="canvasWrapper" class="canvas-wrapper">

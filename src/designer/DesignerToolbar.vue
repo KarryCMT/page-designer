@@ -2,50 +2,18 @@
   <div class="designer-toolbar">
     <div class="toolbar-left">
       <!-- 撤销/重做按钮组 -->
-      <el-button-group>
-        <el-button
-          :disabled="!canUndo"
-          @click="handleUndo"
-          title="撤销 (Ctrl+Z)"
-        >
-          <el-icon><Back /></el-icon>
-          撤销
-        </el-button>
-        <el-button
-          :disabled="!canRedo"
-          @click="handleRedo"
-          title="重做 (Ctrl+Y)"
-        >
-          <el-icon><Right /></el-icon>
-          重做
-        </el-button>
-      </el-button-group>
-
-      <!-- 操作按钮组 -->
-      <el-button-group>
-        <el-button @click="handleClear" title="清空画布">
-          <el-icon><Delete /></el-icon>
-          清空
-        </el-button>
-        <el-button @click="handleViewJson" title="查看 JSON">
-          <el-icon><Document /></el-icon>
-          查看 JSON
-        </el-button>
-        <el-button @click="handleExport" title="导出配置">
-          <el-icon><Download /></el-icon>
-          导出
-        </el-button>
-        <el-button @click="handleImport" title="导入配置">
-          <el-icon><Upload /></el-icon>
-          导入
-        </el-button>
-      </el-button-group>
+      <div class="app-icon">
+        <el-icon size="20" color="#878f95"><Grid /></el-icon>
+      </div>
+      <el-icon size="25">
+        <AppStoreSvg />
+      </el-icon>
     </div>
 
     <!-- 状态信息 -->
     <div class="toolbar-right">
       <el-button @click="handlePreview" title="预览"> 预览 </el-button>
-      <el-button @click="handleSave" type="primary" title="导入配置">
+      <el-button @click="handleSave" type="primary" title="保存">
         保存
       </el-button>
     </div>
@@ -53,15 +21,8 @@
 </template>
 
 <script setup lang="ts">
-import {
-  Back,
-  Right,
-  Delete,
-  Download,
-  Upload,
-  Document,
-  View,
-} from '@element-plus/icons-vue';
+import AppStoreSvg from '@/assets/svg/AppStore.svg';
+import { Grid } from '@element-plus/icons-vue';
 
 interface Props {
   canUndo: boolean;
@@ -73,42 +34,12 @@ interface Props {
 defineProps<Props>();
 
 const emit = defineEmits<{
-  undo: [];
-  redo: [];
-  clear: [];
   preview: [];
-  viewJson: [];
-  export: [];
-  import: [];
   save: [];
 }>();
 
-function handleUndo() {
-  emit('undo');
-}
-
-function handleRedo() {
-  emit('redo');
-}
-
-function handleClear() {
-  emit('clear');
-}
-
 function handlePreview() {
   emit('preview');
-}
-
-function handleViewJson() {
-  emit('viewJson');
-}
-
-function handleExport() {
-  emit('export');
-}
-
-function handleImport() {
-  emit('import');
 }
 
 function handleSave() {
@@ -132,6 +63,20 @@ function handleSave() {
     display: flex;
     align-items: center;
     gap: 10px;
+    .app-icon {
+      height: 30px;
+      line-height: 19px;
+      margin-right: 9px;
+      padding: 5px;
+      text-align: center;
+      width: 30px;
+      &:hover {
+        background: #f1f2f3;
+        border-radius: 6px;
+        color: #1f4469;
+        cursor: pointer;
+      }
+    }
   }
 
   .toolbar-right {
